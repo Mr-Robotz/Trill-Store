@@ -1,0 +1,69 @@
+[
+  {
+    "id": 1,
+    "name": "iPhone 15 Pro",
+    "brand": "Apple",
+    "price": 999,
+    "storage": "128GB",
+    "color": "Natural Titanium",
+    "battery": "Up to 23 hours video playback",
+    "inStock": true,
+    "image": "iphone15pro.png"
+  },
+  {
+    "id": 2,
+    "name": "iPhone 15 Pro Max",
+    "brand": "Apple",
+    "price": 1199,
+    "currency": "USD",
+    "storage": "256GB",
+    "color": "Blue Titanium",
+    "display": "6.7-inch Super Retina XDR",
+    "camera": "48MP Triple Camera System",
+    "battery": "Up to 29 hours video playback",
+    "inStock": true,
+    "image": "iphone15promax.png"
+  },
+  {
+    "id": 3,
+    "name": "iPhone 15",
+    "brand": "Apple",
+    "price": 799,
+    "currency": "USD",
+    "storage": "128GB",
+    "color": "Pink",
+    "display": "6.1-inch Super Retina XDR",
+    "camera": "48MP Dual Camera",
+    "battery": "Up to 20 hours video playback",
+    "inStock": true,
+    "image": "iphone15.png"
+  },
+  {
+    "id": 4,
+    "name": "iPhone 14",
+    "brand": "Apple",
+    "price": 699,
+    "currency": "USD",
+    "storage": "128GB",
+    "color": "Midnight",
+    "display": "6.1-inch Super Retina XDR",
+    "camera": "12MP Dual Camera",
+    "battery": "Up to 20 hours video playback",
+    "inStock": false,
+    "image": "iphone14.png"
+  },
+  {
+    "id": 5,
+    "name": "iPhone SE (3rd Generation)",
+    "brand": "Apple",
+    "price": 429,
+    "currency": "USD",
+    "storage": "64GB",
+    "color": "Starlight",
+    "display": "4.7-inch Retina HD",
+    "camera": "12MP Single Camera",
+    "battery": "Up to 15 hours video playback",
+    "inStock": true,
+    "image": "iphonese3.png"
+  }
+]
