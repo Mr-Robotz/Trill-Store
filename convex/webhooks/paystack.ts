@@ -1,15 +1,29 @@
-import { httpAction } from "convex/server";
+import { httpAction } from "../_generated/server";
 import { internal } from "../_generated/api";
-import crypto from "crypto";
 
-// Verify Paystack signature (x-paystack-signature = HMAC SHA512 over raw body)
-function verifySignature(rawBody: string, signature: string | null, secret: string) {
+function toHex(buffer: ArrayBuffer) {
+  return [...new Uint8Array(buffer)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function hmacSha512Hex(secret: string, message: string) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(secret),
+    { name: "HMAC", hash: "SHA-512" },
+    false,
+    ["sign"]
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(message));
+  return toHex(sig);
+}
+
+async function verifySignature(rawBody: string, signature: string | null, secret: string) {
   if (!signature) return false;
-  const hash = crypto.createHmac("sha512", secret).update(rawBody).digest("hex");
+  const hash = await hmacSha512Hex(secret, rawBody);
   return hash === signature;
 }
 
-// Optional: verify reference against Paystack verify endpoint too (extra safety)
 async function verifyWithPaystack(reference: string) {
   const secretKey = process.env.PAYSTACK_SECRET_KEY;
   if (!secretKey) throw new Error("Missing PAYSTACK_SECRET_KEY in Convex env");
@@ -25,18 +39,15 @@ async function verifyWithPaystack(reference: string) {
 
 export const paystackWebhook = httpAction(async (ctx, req) => {
   const webhookSecret = process.env.PAYSTACK_WEBHOOK_SECRET;
-  if (!webhookSecret) {
-    return new Response("Missing PAYSTACK_WEBHOOK_SECRET", { status: 500 });
-  }
+  if (!webhookSecret) return new Response("Missing PAYSTACK_WEBHOOK_SECRET", { status: 500 });
 
   const signature = req.headers.get("x-paystack-signature");
   const rawBody = await req.text();
 
-  if (!verifySignature(rawBody, signature, webhookSecret)) {
-    return new Response("Invalid signature", { status: 400 });
-  }
+  const ok = await verifySignature(rawBody, signature, webhookSecret);
+  if (!ok) return new Response("Invalid signature", { status: 400 });
 
-  let event: any = null;
+  let event: any;
   try {
     event = JSON.parse(rawBody);
   } catch {
@@ -44,15 +55,10 @@ export const paystackWebhook = httpAction(async (ctx, req) => {
   }
 
   const reference = event?.data?.reference;
-  const eventType = event?.event;
+  if (!reference) return new Response("OK", { status: 200 });
 
-  // We only act on known payment success events (Paystack may send various)
-  if (!reference || !eventType) return new Response("OK", { status: 200 });
-
-  // Extra safety: verify with Paystack
   const verified = await verifyWithPaystack(reference);
 
-  // If verify fails, do not mark paid
   if (!verified.ok) {
     await ctx.runMutation(internal.webhookInternal.markPaymentFailedInternal, {
       reference,
@@ -61,7 +67,7 @@ export const paystackWebhook = httpAction(async (ctx, req) => {
     return new Response("OK", { status: 200 });
   }
 
-  const status = verified.data?.data?.status; // "success" | "failed" | "abandoned" | ...
+  const status = verified.data?.data?.status; // success | failed | abandoned | ...
   if (status === "success") {
     await ctx.runMutation(internal.webhookInternal.markPaymentSuccessInternal, {
       reference,
@@ -72,8 +78,6 @@ export const paystackWebhook = httpAction(async (ctx, req) => {
       reference,
       raw: { event, verify: verified.data },
     });
-  } else {
-    // pending -> do nothing
   }
 
   return new Response("OK", { status: 200 });

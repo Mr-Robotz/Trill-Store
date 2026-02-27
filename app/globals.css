@@ -8,73 +8,76 @@ body{
   font-family: "Outfit", sans-serif  ;
 }
 
+/* ----------------------------
+   Tailwind v4 theme tokens
+   This makes classes like:
+   border-border, bg-background,
+   text-foreground, etc. work.
+-----------------------------*/
+@theme {
+  --radius: 0.5rem;
 
-/* shadcn tokens */
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(240 10% 3.9%);
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(240 10% 3.9%);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(240 10% 3.9%);
 
-    --primary: 240 6% 10%;
-    --primary-foreground: 0 0% 98%;
+  --color-primary: hsl(240 6% 10%);
+  --color-primary-foreground: hsl(0 0% 98%);
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+  --color-secondary: hsl(240 4.8% 95.9%);
+  --color-secondary-foreground: hsl(240 5.9% 10%);
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+  --color-muted: hsl(240 4.8% 95.9%);
+  --color-muted-foreground: hsl(240 3.8% 46.1%);
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+  --color-accent: hsl(240 4.8% 95.9%);
+  --color-accent-foreground: hsl(240 5.9% 10%);
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+  --color-destructive: hsl(0 84.2% 60.2%);
+  --color-destructive-foreground: hsl(0 0% 98%);
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5% 64.9%;
-
-    --radius: 0.5rem;
-  }
-
-  /* Dark: deep navy-ish */
-  .dark {
-    --background: 222 47% 6%;
-    --foreground: 0 0% 98%;
-
-    --card: 222 47% 8%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 222 47% 8%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 6% 10%;
-
-    --secondary: 222 47% 12%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 222 47% 12%;
-    --muted-foreground: 215 20% 70%;
-
-    --accent: 222 47% 12%;
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 62.8% 40%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 222 47% 16%;
-    --input: 222 47% 16%;
-    --ring: 215 20% 70%;
-  }
+  --color-border: hsl(240 5.9% 90%);
+  --color-input: hsl(240 5.9% 90%);
+  --color-ring: hsl(240 5% 64.9%);
 }
 
+/* Dark mode overrides (class="dark" on html) */
+.dark {
+  --color-background: hsl(222 47% 6%);
+  --color-foreground: hsl(0 0% 98%);
+
+  --color-card: hsl(222 47% 8%);
+  --color-card-foreground: hsl(0 0% 98%);
+
+  --color-popover: hsl(222 47% 8%);
+  --color-popover-foreground: hsl(0 0% 98%);
+
+  --color-primary: hsl(0 0% 98%);
+  --color-primary-foreground: hsl(240 6% 10%);
+
+  --color-secondary: hsl(222 47% 12%);
+  --color-secondary-foreground: hsl(0 0% 98%);
+
+  --color-muted: hsl(222 47% 12%);
+  --color-muted-foreground: hsl(215 20% 70%);
+
+  --color-accent: hsl(222 47% 12%);
+  --color-accent-foreground: hsl(0 0% 98%);
+
+  --color-destructive: hsl(0 62.8% 40%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+
+  --color-border: hsl(222 47% 16%);
+  --color-input: hsl(222 47% 16%);
+  --color-ring: hsl(215 20% 70%);
+}
+
+/* Base styles */
 @layer base {
   * {
     @apply border-border;
@@ -84,7 +87,7 @@ body{
   }
 }
 
-/* Reusable premium glass panel utility */
+/* Glass utility */
 @layer utilities {
   .glass {
     @apply bg-background/60 backdrop-blur-md border border-border/60;
@@ -96,4 +99,3 @@ body{
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 }
-

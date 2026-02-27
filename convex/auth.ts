@@ -1,6 +1,6 @@
-import { query, mutation } from "convex/server";
+import { query, mutation } from "./_generated/server";;
 import { v } from "convex/values";
-import { getAuthUserId } from "@convex-dev/auth/server"; // if you use convex-auth
+// import { getAuthUserId } from "@convex-dev/auth/server"; // if you use convex-auth
 // We’re using Clerk via Next.js token -> Convex. We'll read identity instead.
 
 export async function requireUser(ctx: any) {

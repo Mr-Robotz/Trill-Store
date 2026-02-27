@@ -1,4 +1,4 @@
-import { query, mutation } from "convex/server";
+import { query, mutation } from "./_generated/server";;
 import { v } from "convex/values";
 import { requireAdmin } from "./auth";
 
@@ -119,7 +119,6 @@ export const listPaged = query({
     const { numItems, cursor } = args.paginationOpts;
 
     if (args.query) {
-      // Search index paginate
       const page = await ctx.db
         .query("products")
         .withSearchIndex("search_title", (q) => {
@@ -129,17 +128,18 @@ export const listPaged = query({
         })
         .paginate({ numItems, cursor: cursor ?? null });
 
-      return page; // {page, isDone, continueCursor}
+      return page;
     }
 
-    // Non-search paginate
     let q = ctx.db.query("products").filter((q) => q.eq(q.field("active"), true));
     if (args.category) {
-      q = ctx.db.query("products").withIndex("by_category", (q) => q.eq("category", args.category)).filter((q) => q.eq(q.field("active"), true));
+      q = ctx.db
+        .query("products")
+        .withIndex("by_category", (q) => q.eq("category", args.category))
+        .filter((q) => q.eq(q.field("active"), true));
     }
 
-    const page = await q.order("desc").paginate({ numItems, cursor: cursor ?? null });
-    return page;
+    return await q.order("desc").paginate({ numItems, cursor: cursor ?? null });
   },
 });
 

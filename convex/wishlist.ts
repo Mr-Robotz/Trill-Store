@@ -1,4 +1,4 @@
-import { mutation, query } from "convex/server";
+import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 import { requireDbUser } from "./auth";
 

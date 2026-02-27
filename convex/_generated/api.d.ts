@@ -8,13 +8,45 @@
  * @module
  */
 
+import type * as admin from "../admin.js";
+import type * as auth from "../auth.js";
+import type * as cart from "../cart.js";
+import type * as files from "../files.js";
+import type * as http from "../http.js";
+import type * as orders from "../orders.js";
+import type * as payments from "../payments.js";
+import type * as products from "../products.js";
+import type * as publicCart from "../publicCart.js";
+import type * as seed from "../seed.js";
+import type * as settings from "../settings.js";
+import type * as users from "../users.js";
+import type * as webhookInternal from "../webhookInternal.js";
+import type * as webhooks_paystack from "../webhooks/paystack.js";
+import type * as wishlist from "../wishlist.js";
+
 import type {
   ApiFromModules,
   FilterApi,
   FunctionReference,
 } from "convex/server";
 
-declare const fullApi: ApiFromModules<{}>;
+declare const fullApi: ApiFromModules<{
+  admin: typeof admin;
+  auth: typeof auth;
+  cart: typeof cart;
+  files: typeof files;
+  http: typeof http;
+  orders: typeof orders;
+  payments: typeof payments;
+  products: typeof products;
+  publicCart: typeof publicCart;
+  seed: typeof seed;
+  settings: typeof settings;
+  users: typeof users;
+  webhookInternal: typeof webhookInternal;
+  "webhooks/paystack": typeof webhooks_paystack;
+  wishlist: typeof wishlist;
+}>;
 
 /**
  * A utility for referencing Convex functions in your app's public API.

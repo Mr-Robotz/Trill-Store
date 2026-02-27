@@ -5,7 +5,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import { MotionProvider } from "../components/motion/MotionProvider";
-import { ConvexClientProvider } from "../convex/client";
+import { ConvexClientProvider } from "../components/convex/ConvexClientProvider";
 import { Toaster } from "../components/ui/toaster";
 
 const outfit = Outfit({

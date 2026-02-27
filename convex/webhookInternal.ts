@@ -1,4 +1,4 @@
-import { internalMutation } from "convex/server";
+import { internalMutation } from "./_generated/server";
 import { v } from "convex/values";
 
 export const markPaymentSuccessInternal = internalMutation({
